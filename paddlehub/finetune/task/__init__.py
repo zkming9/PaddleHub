@@ -15,7 +15,9 @@
 
 from .base_task import BaseTask, RunEnv, RunState
 from .classifier_task import ClassifierTask, ImageClassifierTask, TextClassifierTask, MultiLabelClassifierTask
-from .detection_task import DetectionTask
+from .ssd_task import SSDTask
+from .yolo_task import YOLOTask
+from .faster_rcnn_task import FasterRCNNTask
 from .reading_comprehension_task import ReadingComprehensionTask
 from .regression_task import RegressionTask
 from .sequence_task import SequenceLabelTask

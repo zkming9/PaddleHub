@@ -403,6 +403,8 @@ class BaseTask(object):
         with fluid.program_guard(self.env.main_program,
                                  self._base_startup_program):
             with fluid.unique_name.guard(self.env.UNG):
+                if self.is_train_phase or self.is_test_phase:
+                    self.env.labels = self._add_label()
                 self.env.outputs = self._build_net()
                 if self.is_train_phase or self.is_test_phase:
                     self.env.labels = self._add_label()
@@ -557,9 +559,6 @@ class BaseTask(object):
 
     @property
     def labels(self):
-        if self.is_predict_phase:
-            raise RuntimeError()
-
         if not self.env.is_inititalized:
             self._build_env()
         return self.env.labels
