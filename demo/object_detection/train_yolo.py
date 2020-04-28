@@ -45,7 +45,7 @@ def finetune(args):
         enable_memory_optim=False,
         checkpoint_dir=args.checkpoint_dir,
         strategy=hub.finetune.strategy.DefaultFinetuneStrategy(
-            learning_rate=0.00025, optimizer_name="adam"))
+            learning_rate=0.00025, optimizer_name="momentum", momentum=0.9))
 
     task = hub.YOLOTask(
         data_reader=data_reader,
