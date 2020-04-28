@@ -67,30 +67,28 @@ class FasterRCNNTask(DetectionTask):
             head_feat = self.main_program.global_block().vars[
                 self.predict_feature[0].name]
 
-        # Rename following layers for: ValueError: Variable cls_score_w has been created before.
-        #  the previous shape is (2048, 81); the new shape is (100352, 81).
-        #  They are not matched.
         cls_score = fluid.layers.fc(
             input=head_feat,
             size=self.num_classes,
             act=None,
-            name='my_cls_score',
+            name='paddlehub_rcnn_cls_score',
             param_attr=ParamAttr(
-                name='my_cls_score_w', initializer=Normal(loc=0.0, scale=0.01)),
+                name='paddlehub_rcnn_cls_score_weights',
+                initializer=Normal(loc=0.0, scale=0.01)),
             bias_attr=ParamAttr(
-                name='my_cls_score_b',
+                name='paddlehub_rcnn_cls_score_bias',
                 learning_rate=2.,
                 regularizer=L2Decay(0.)))
         bbox_pred = fluid.layers.fc(
             input=head_feat,
             size=4 * self.num_classes,
             act=None,
-            name='my_bbox_pred',
+            name='paddlehub_rcnn_bbox_pred',
             param_attr=ParamAttr(
-                name='my_bbox_pred_w', initializer=Normal(loc=0.0,
-                                                          scale=0.001)),
+                name='paddlehub_rcnn_bbox_pred_weights',
+                initializer=Normal(loc=0.0, scale=0.001)),
             bias_attr=ParamAttr(
-                name='my_bbox_pred_b',
+                name='paddlehub_rcnn_bbox_pred_bias',
                 learning_rate=2.,
                 regularizer=L2Decay(0.)))
 

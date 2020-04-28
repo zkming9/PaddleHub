@@ -90,10 +90,10 @@ class YOLOTask(DetectionTask):
                 act=None,
                 # Rename for: conflict with module pretrain weights
                 param_attr=ParamAttr(
-                    name="ft_yolo_output.{}.conv.weights".format(i)),
+                    name="paddlehub_yolo_output.{}.conv.weights".format(i)),
                 bias_attr=ParamAttr(
                     regularizer=L2Decay(0.),
-                    name="ft_yolo_output.{}.conv.bias".format(i)))
+                    name="paddlehub_yolo_output.{}.conv.bias".format(i)))
             outputs.append(block_out)
 
         if self.is_train_phase:
