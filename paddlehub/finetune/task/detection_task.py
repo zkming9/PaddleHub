@@ -116,7 +116,7 @@ class DetectionTask(BaseTask):
         if metrics_choices == "default":
             metrics_choices = ["ap"]
 
-        main_program = feature[0].block.program
+        main_program = feature[0].block.program if feature else None
         super(DetectionTask, self).__init__(
             data_reader=data_reader,
             main_program=main_program,

@@ -27,25 +27,12 @@ def predict(args):
 
     # define batch reader
     data_reader = ObjectDetectionReader(dataset=dataset, model_type='rcnn')
-
-    input_dict, output_dict, program = module.context(trainable=True)
     pred_input_dict, pred_output_dict, pred_program = module.context(
         trainable=False, phase='predict')
-
-    feed_list = [
-        input_dict["image"].name, input_dict["im_info"].name,
-        input_dict['gt_bbox'].name, input_dict['gt_class'].name,
-        input_dict['is_crowd'].name
-    ]
 
     pred_feed_list = [
         pred_input_dict['image'].name, pred_input_dict['im_info'].name,
         pred_input_dict['im_shape'].name
-    ]
-
-    feature = [
-        output_dict['head_feat'], output_dict['rpn_cls_loss'],
-        output_dict['rpn_reg_loss'], output_dict['generate_proposal_labels']
     ]
 
     pred_feature = [pred_output_dict['head_feat'], pred_output_dict['rois']]
@@ -62,8 +49,6 @@ def predict(args):
     task = hub.FasterRCNNTask(
         data_reader=data_reader,
         num_classes=dataset.num_labels,
-        feed_list=feed_list,
-        feature=feature,
         predict_feed_list=pred_feed_list,
         predict_feature=pred_feature,
         config=config)

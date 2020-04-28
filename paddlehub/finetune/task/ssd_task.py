@@ -24,10 +24,10 @@ from paddlehub.finetune.task.detection_task import DetectionTask
 
 class SSDTask(DetectionTask):
     def __init__(self,
-                 data_reader,
+                 feature,
                  num_classes,
                  feed_list,
-                 feature,
+                 data_reader,
                  multi_box_head_config,
                  startup_program=None,
                  config=None,

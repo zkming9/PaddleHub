@@ -26,10 +26,10 @@ from paddlehub.finetune.task.detection_task import DetectionTask
 
 class YOLOTask(DetectionTask):
     def __init__(self,
-                 data_reader,
+                 feature,
                  num_classes,
                  feed_list,
-                 feature,
+                 data_reader,
                  startup_program=None,
                  config=None,
                  metrics_choices="default"):

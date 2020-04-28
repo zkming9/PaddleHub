@@ -28,12 +28,12 @@ from paddlehub.finetune.task.detection_task import DetectionTask
 
 class FasterRCNNTask(DetectionTask):
     def __init__(self,
-                 data_reader,
                  num_classes,
-                 feed_list,
-                 feature,
-                 predict_feed_list=None,
+                 data_reader,
+                 feature=None,
+                 feed_list=None,
                  predict_feature=None,
+                 predict_feed_list=None,
                  startup_program=None,
                  config=None,
                  metrics_choices="default"):
