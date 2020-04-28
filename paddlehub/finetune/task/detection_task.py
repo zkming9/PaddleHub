@@ -176,6 +176,10 @@ class DetectionTask(BaseTask):
                 shape=feed_var_map[key]['shape'],
                 dtype=feed_var_map[key]['dtype'],
                 lod_level=feed_var_map[key]['lod_level'])
+
+            # Add assign operation to prevent the im_id from being optimized and cause the exception
+            if feed_var_map[key]['name'] == 'im_id':
+                _ = fluid.layers.assign(l)
             labels.append(l)
         return labels
 
