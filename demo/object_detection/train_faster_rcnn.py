@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(__doc__)
 parser.add_argument("--num_epoch",          type=int,               default=50,                               help="Number of epoches for fine-tuning.")
 parser.add_argument("--use_gpu",            type=ast.literal_eval,  default=True,                             help="Whether use GPU for fine-tuning.")
 parser.add_argument("--checkpoint_dir",     type=str,               default="faster_rcnn_finetune_ckpt",      help="Path to save log data.")
-parser.add_argument("--batch_size",         type=int,               default=1,                                help="Total examples' number in batch for training.")
+parser.add_argument("--batch_size",         type=int,               default=5,                                help="Total examples' number in batch for training.")
 parser.add_argument("--module",             type=str,               default="faster_rcnn_resnet50_coco2017",  help="Module used as feature extractor.")
 parser.add_argument("--use_data_parallel",  type=ast.literal_eval,  default=False,                            help="Whether use data parallel.")
 # yapf: enable.
@@ -54,7 +54,7 @@ def finetune(args):
 
     config = hub.RunConfig(
         log_interval=10,
-        eval_interval=10,
+        eval_interval=100,
         use_data_parallel=args.use_data_parallel,
         use_pyreader=True,
         use_cuda=args.use_gpu,
