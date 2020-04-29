@@ -15,13 +15,12 @@ parser.add_argument("--use_gpu",            type=ast.literal_eval,  default=True
 parser.add_argument("--checkpoint_dir",     type=str,               default="yolo_finetune_ckpt",         help="Path to save log data.")
 parser.add_argument("--batch_size",         type=int,               default=8,                            help="Total examples' number in batch for training.")
 parser.add_argument("--module",             type=str,               default="yolov3_darknet53_coco2017",  help="Module used as feature extractor.")
-parser.add_argument("--dataset",            type=str,               default="coco_10",                    help="Dataset to finetune.")
 # yapf: enable.
 
 
 def predict(args):
     module = hub.Module(name=args.module)
-    dataset = hub.dataset.Coco10('yolo')
+    dataset = hub.dataset.Balloon('yolo')
 
     print("dataset.num_labels:", dataset.num_labels)
 
@@ -49,8 +48,8 @@ def predict(args):
         config=config)
 
     data = [
-        "./test/test_img_bird.jpg",
-        "./test/test_img_cat.jpg",
+        "./test/balloon1.jpg",
+        "./test/balloon2.jpg",
     ]
     label_map = dataset.label_dict()
     results = task.predict(data=data, return_result=True, accelerate_mode=False)

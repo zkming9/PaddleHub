@@ -16,23 +16,23 @@ parser.add_argument("--use_gpu",            type=ast.literal_eval,  default=True
 parser.add_argument("--checkpoint_dir",     type=str,               default="faster_rcnn_finetune_ckpt",      help="Path to save log data.")
 parser.add_argument("--batch_size",         type=int,               default=1,                                help="Total examples' number in batch for training.")
 parser.add_argument("--module",             type=str,               default="faster_rcnn_resnet50_coco2017",  help="Module used as feature extractor.")
-parser.add_argument("--dataset",            type=str,               default="coco_10",                        help="Dataset to finetune.")
 parser.add_argument("--use_data_parallel",  type=ast.literal_eval,  default=False,                            help="Whether use data parallel.")
 # yapf: enable.
 
 
 def finetune(args):
     module = hub.Module(name=args.module)
-    dataset = hub.dataset.Coco10('rcnn')
+    dataset = hub.dataset.Balloon('rcnn')
 
     print("dataset.num_labels:", dataset.num_labels)
 
     # define batch reader
     data_reader = ObjectDetectionReader(dataset=dataset, model_type='rcnn')
 
-    input_dict, output_dict, program = module.context(trainable=True)
+    input_dict, output_dict, program = module.context(
+        trainable=True, num_classes=dataset.num_labels)
     pred_input_dict, pred_output_dict, pred_program = module.context(
-        trainable=False, phase='predict')
+        trainable=False, phase='predict', num_classes=dataset.num_labels)
 
     feed_list = [
         input_dict["image"].name, input_dict["im_info"].name,
@@ -54,7 +54,7 @@ def finetune(args):
 
     config = hub.RunConfig(
         log_interval=10,
-        eval_interval=100,
+        eval_interval=10,
         use_data_parallel=args.use_data_parallel,
         use_pyreader=True,
         use_cuda=args.use_gpu,

@@ -16,14 +16,13 @@ parser.add_argument("--use_gpu",            type=ast.literal_eval,  default=True
 parser.add_argument("--checkpoint_dir",     type=str,               default="ssd_finetune_ckpt",          help="Path to save log data.")
 parser.add_argument("--batch_size",         type=int,               default=8,                            help="Total examples' number in batch for training.")
 parser.add_argument("--module",             type=str,               default="ssd_vgg16_512_coco2017",     help="Module used as feature extractor.")
-parser.add_argument("--dataset",            type=str,               default="coco_10",                    help="Dataset to finetune.")
 parser.add_argument("--use_data_parallel",  type=ast.literal_eval,  default=False,                        help="Whether use data parallel.")
 # yapf: enable.
 
 
 def finetune(args):
     module = hub.Module(name=args.module)
-    dataset = hub.dataset.Coco10('ssd')
+    dataset = hub.dataset.Balloon('ssd')
 
     print("dataset.num_labels:", dataset.num_labels)
 
