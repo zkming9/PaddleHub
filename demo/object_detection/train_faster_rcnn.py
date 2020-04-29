@@ -46,11 +46,11 @@ def finetune(args):
     ]
 
     feature = [
-        output_dict['head_feat'], output_dict['rpn_cls_loss'],
+        output_dict['head_features'], output_dict['rpn_cls_loss'],
         output_dict['rpn_reg_loss'], output_dict['generate_proposal_labels']
     ]
 
-    pred_feature = [pred_output_dict['head_feat'], pred_output_dict['rois']]
+    pred_feature = [pred_output_dict['head_features'], pred_output_dict['rois']]
 
     config = hub.RunConfig(
         log_interval=10,

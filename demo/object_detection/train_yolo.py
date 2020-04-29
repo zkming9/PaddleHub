@@ -32,7 +32,7 @@ def finetune(args):
 
     input_dict, output_dict, program = module.context(trainable=True)
     feed_list = [input_dict["image"].name, input_dict["im_size"].name]
-    feature = output_dict['head_features']
+    feature = output_dict['body_features']
 
     config = hub.RunConfig(
         log_interval=10,

@@ -12,21 +12,21 @@ from paddlehub.dataset.base_cv_dataset import ObjectDetectionDataset
 # yapf: disable
 parser = argparse.ArgumentParser(__doc__)
 parser.add_argument("--use_gpu",            type=ast.literal_eval,  default=True,                         help="Whether use GPU for fine-tuning.")
-parser.add_argument("--checkpoint_dir",     type=str,               default="ssd_finetune_ckpt",          help="Path to save log data.")
+parser.add_argument("--checkpoint_dir",     type=str,               default="yolo_finetune_ckpt",         help="Path to save log data.")
 parser.add_argument("--batch_size",         type=int,               default=8,                            help="Total examples' number in batch for training.")
-parser.add_argument("--module",             type=str,               default="ssd_vgg16_512_coco2017",     help="Module used as feature extractor.")
+parser.add_argument("--module",             type=str,               default="yolov3_darknet53_coco2017",  help="Module used as feature extractor.")
 parser.add_argument("--dataset",            type=str,               default="coco_10",                    help="Dataset to finetune.")
 # yapf: enable.
 
 
 def predict(args):
     module = hub.Module(name=args.module)
-    dataset = hub.dataset.Coco10('ssd')
+    dataset = hub.dataset.Coco10('yolo')
 
     print("dataset.num_labels:", dataset.num_labels)
 
     # define batch reader
-    data_reader = ObjectDetectionReader(dataset=dataset, model_type='ssd')
+    data_reader = ObjectDetectionReader(dataset=dataset, model_type='yolo')
 
     input_dict, output_dict, program = module.context(trainable=True)
     feed_list = [input_dict["image"].name, input_dict["im_size"].name]
@@ -41,12 +41,11 @@ def predict(args):
         checkpoint_dir=args.checkpoint_dir,
         strategy=hub.finetune.strategy.DefaultFinetuneStrategy())
 
-    task = hub.SSDTask(
+    task = hub.YOLOTask(
         data_reader=data_reader,
         num_classes=dataset.num_labels,
         feed_list=feed_list,
         feature=feature,
-        multi_box_head_config=module.multi_box_head_config,
         config=config)
 
     data = [
