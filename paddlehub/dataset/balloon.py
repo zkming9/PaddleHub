@@ -23,18 +23,19 @@ import paddlehub as hub
 from paddlehub.dataset.base_cv_dataset import ObjectDetectionDataset
 
 
-class Coco10(ObjectDetectionDataset):
+class Balloon(ObjectDetectionDataset):
     def __init__(self, model_type='ssd'):
-        dataset_path = os.path.join(hub.common.dir.DATA_HOME, "coco_10")
-        # self.base_path = self._download_dataset(
-        #     dataset_path=dataset_path,
-        #     url="https://bj.bcebos.com/paddlehub-dataset/dog-cat.tar.gz")
+        dataset_path = os.path.join(hub.common.dir.DATA_HOME, "balloon")
+        self.base_path = self._download_dataset(
+            dataset_path=dataset_path,
+            url="https://bj.bcebos.com/paddlehub-dataset/balloon.tar.gz")
         base_path = dataset_path
-        train_image_dir = 'val'
-        train_list_file = 'annotations/val.json'
-        validate_image_dir = 'val'
-        validate_list_file = 'annotations/val.json'
-        test_image_dir = 'val'
-        test_list_file = 'annotations/val.json'
-        super(Coco10, self).__init__(base_path, train_image_dir, train_list_file, validate_image_dir, validate_list_file,
-                                     test_image_dir, test_list_file, model_type)
+        train_image_dir = 'JPEGImages'
+        train_list_file = 'train.json'
+        validate_image_dir = 'JPEGImages'
+        validate_list_file = 'val.json'
+        test_image_dir = 'JPEGImages'
+        test_list_file = 'val.json'
+        super(Balloon, self).__init__(
+            base_path, train_image_dir, train_list_file, validate_image_dir,
+            validate_list_file, test_image_dir, test_list_file, model_type)
